@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="High-performance GPU and bare metal servers for AI training, inference and demanding workloads." />
+  <title>Vepesi Hotiser — GPU & Bare Metal Servers</title>
+  <style>
+    :root{
+      --bg:#070b14;
+      --bg-soft:#0d1422;
+      --card:#101827;
+      --card-2:#0b1220;
+      --line:rgba(255,255,255,.09);
+      --text:#f5f7fb;
+      --muted:#9aa7ba;
+      --primary:#7c5cff;
+      --primary-2:#21d4fd;
+      --success:#4ade80;
+      --shadow:0 20px 50px rgba(0,0,0,.35);
+      --radius:22px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 15% 10%,rgba(124,92,255,.18),transparent 28%),
+        radial-gradient(circle at 85% 0%,rgba(33,212,253,.12),transparent 24%),
+        var(--bg);
+      line-height:1.6;
+    }
+
+    a{color:inherit;text-decoration:none}
+    button{font:inherit}
+
+    .container{width:min(1180px,92%);margin:auto}
+
+    .nav{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter:blur(16px);
+      background:rgba(7,11,20,.76);
+      border-bottom:1px solid var(--line);
+    }
+
+    .nav-inner{
+      min-height:74px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:24px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-weight:800;
+      letter-spacing:-.03em;
+    }
+
+    .logo{
+      width:38px;height:38px;border-radius:12px;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--primary),var(--primary-2));
+      box-shadow:0 0 30px rgba(124,92,255,.4);
+      font-weight:900;
+    }
+
+    .nav-links{display:flex;gap:24px;color:var(--muted);font-size:14px}
+    .nav-links a:hover{color:#fff}
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:13px 20px;
+      border-radius:14px;
+      border:1px solid transparent;
+      font-weight:700;
+      transition:.2s ease;
+      cursor:pointer;
+    }
+
+    .btn-primary{
+      color:#fff;
+      background:linear-gradient(135deg,var(--primary),#5d8dff);
+      box-shadow:0 12px 30px rgba(124,92,255,.28);
+    }
+
+    .btn-primary:hover{transform:translateY(-2px)}
+    .btn-outline{border-color:var(--line);background:rgba(255,255,255,.03)}
+    .btn-outline:hover{background:rgba(255,255,255,.07)}
+
+    .hero{
+      padding:100px 0 72px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:54px;
+      align-items:center;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border:1px solid rgba(124,92,255,.3);
+      background:rgba(124,92,255,.08);
+      color:#c8bdff;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:700;
+    }
+
+    h1{
+      font-size:clamp(46px,7vw,82px);
+      line-height:.98;
+      letter-spacing:-.055em;
+      margin:22px 0;
+    }
+
+    .gradient-text{
+      background:linear-gradient(90deg,#fff,#aa9cff 48%,#6ce7ff);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+
+    .hero p{
+      font-size:18px;
+      color:var(--muted);
+      max-width:680px;
+    }
+
+    .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:30px}
+
+    .metrics{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+      margin-top:34px;
+    }
+
+    .metric{
+      padding:16px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:rgba(255,255,255,.025);
+    }
+
+    .metric strong{display:block;font-size:21px}
+    .metric span{color:var(--muted);font-size:13px}
+
+    .server-visual{
+      background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+      border:1px solid var(--line);
+      border-radius:30px;
+      padding:24px;
+      box-shadow:var(--shadow);
+    }
+
+    .terminal{
+      border-radius:20px;
+      background:#050811;
+      border:1px solid rgba(255,255,255,.08);
+      overflow:hidden;
+    }
+
+    .terminal-top{
+      display:flex;gap:8px;padding:14px 16px;
+      border-bottom:1px solid var(--line);
+    }
+
+    .dot{width:10px;height:10px;border-radius:50%;background:#334155}
+    .dot:nth-child(1){background:#ff6b6b}
+    .dot:nth-child(2){background:#ffd166}
+    .dot:nth-child(3){background:#4ade80}
+
+    .terminal-body{
+      padding:22px;
+      min-height:360px;
+      font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+      color:#b8c7db;
+      font-size:14px;
+    }
+
+    .line{margin:0 0 14px}
+    .prompt{color:#7dd3fc}
+    .ok{color:#4ade80}
+    .accent{color:#c4b5fd}
+
+    .section{padding:92px 0}
+    .section-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap:28px;
+      margin-bottom:34px;
+    }
+
+    .section-head h2{
+      margin:0;
+      font-size:clamp(34px,5vw,54px);
+      line-height:1.05;
+      letter-spacing:-.045em;
+    }
+
+    .section-head p{margin:0;color:var(--muted);max-width:560px}
+
+    .tabs{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom:28px;
+    }
+
+    .tab{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      color:var(--muted);
+      padding:11px 16px;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:700;
+    }
+
+    .tab.active{
+      background:linear-gradient(135deg,var(--primary),#5d8dff);
+      color:white;
+      border-color:transparent;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+    }
+
+    .card{
+      position:relative;
+      background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.02));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:24px;
+      transition:.25s ease;
+      overflow:hidden;
+    }
+
+    .card:hover{
+      transform:translateY(-5px);
+      border-color:rgba(124,92,255,.45);
+      box-shadow:var(--shadow);
+    }
+
+    .card.featured:before{
+      content:"POPULAR";
+      position:absolute;
+      right:18px;top:18px;
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:.12em;
+      padding:6px 9px;
+      border-radius:999px;
+      color:#04100a;
+      background:var(--success);
+    }
+
+    .chip{
+      display:inline-block;
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:.08em;
+      color:#b8c8dc;
+      margin-bottom:14px;
+    }
+
+    .card h3{margin:0 0 6px;font-size:24px;letter-spacing:-.03em}
+    .use-case{color:#a9b5c8;font-size:14px;margin-bottom:20px}
+    .price-label{color:var(--muted);font-size:12px}
+    .price{font-size:30px;font-weight:900;letter-spacing:-.04em;margin:2px 0 18px}
+    .price small{font-size:13px;color:var(--muted);font-weight:600}
+
+    .specs{
+      list-style:none;
+      padding:0;
+      margin:0 0 22px;
+      display:grid;
+      gap:9px;
+      color:#cad3df;
+      font-size:14px;
+    }
+
+    .specs li{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+    }
+
+    .specs li:before{
+      content:"✓";
+      color:var(--success);
+      font-weight:900;
+    }
+
+    .card .btn{width:100%}
+
+    .notice{
+      margin-top:26px;
+      padding:20px 22px;
+      border-radius:18px;
+      background:rgba(124,92,255,.08);
+      border:1px solid rgba(124,92,255,.22);
+      color:#c8d1df;
+    }
+
+    .why-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:16px;
+    }
+
+    .feature{
+      padding:24px;
+      border-radius:20px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.025);
+    }
+
+    .feature-icon{
+      width:44px;height:44px;border-radius:14px;
+      display:grid;place-items:center;
+      margin-bottom:18px;
+      background:rgba(124,92,255,.12);
+      color:#c4b5fd;
+      font-size:20px;
+    }
+
+    .feature h3{margin:0 0 8px}
+    .feature p{margin:0;color:var(--muted);font-size:14px}
+
+    .cta{
+      padding:42px;
+      border-radius:28px;
+      background:
+        radial-gradient(circle at top right,rgba(33,212,253,.22),transparent 30%),
+        linear-gradient(135deg,#15112b,#0c1e33);
+      border:1px solid rgba(255,255,255,.1);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:30px;
+    }
+
+    .cta h2{margin:0 0 8px;font-size:38px;letter-spacing:-.04em}
+    .cta p{margin:0;color:#bdc7d5}
+
+    footer{
+      padding:36px 0 50px;
+      color:var(--muted);
+      border-top:1px solid var(--line);
+      font-size:14px;
+    }
+
+    .footer-inner{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+
+    @media (max-width:980px){
+      .hero-grid{grid-template-columns:1fr}
+      .grid{grid-template-columns:repeat(2,1fr)}
+      .why-grid{grid-template-columns:repeat(2,1fr)}
+      .nav-links{display:none}
+    }
+
+    @media (max-width:650px){
+      .hero{padding-top:70px}
+      .grid,.why-grid,.metrics{grid-template-columns:1fr}
+      .section-head,.cta{align-items:flex-start;flex-direction:column}
+      .card{padding:20px}
+      .server-visual{padding:14px}
+      .terminal-body{min-height:auto}
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#">
+        <span class="logo">V</span>
+        <span>Vepesi Hotiser</span>
+      </a>
+      <div class="nav-links">
+        <a href="#gpu">GPU Compute</a>
+        <a href="#cpu">Bare Metal</a>
+        <a href="#features">Infrastructure</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <a class="btn btn-primary" href="mailto:sales@vepesihotiser.com">Contact Sales</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="eyebrow">● Global High-Performance Infrastructure</span>
+        <h1>Powerful servers for the <span class="gradient-text">most demanding workloads.</span></h1>
+        <p>
+          Deploy enterprise-grade GPU compute and bare metal infrastructure for AI training,
+          AI inference, visual computing, high-performance databases and large-scale applications.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#gpu">View GPU Servers</a>
+          <a class="btn btn-outline" href="#cpu">Explore Bare Metal</a>
+        </div>
+        <div class="metrics">
+          <div class="metric"><strong>400 Gbps</strong><span>GPU fabric connectivity</span></div>
+          <div class="metric"><strong>3 TB</strong><span>Maximum system memory</span></div>
+          <div class="metric"><strong>24/7</strong><span>Infrastructure support</span></div>
+        </div>
+      </div>
+
+      <div class="server-visual">
+        <div class="terminal">
+          <div class="terminal-top"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <div class="terminal-body">
+            <p class="line"><span class="prompt">$</span> deploy gpu-cluster --region global</p>
+            <p class="line"><span class="ok">✓</span> Provisioning NVIDIA HGX B200 nodes</p>
+            <p class="line"><span class="ok">✓</span> Configuring 8 × 400 Gbps GPU network</p>
+            <p class="line"><span class="ok">✓</span> Attaching high-performance NVMe storage</p>
+            <p class="line"><span class="ok">✓</span> Enabling 200 Gbps public network</p>
+            <p class="line"><span class="accent">Cluster ready.</span></p>
+            <p class="line">GPU memory: 8 × 192 GB</p>
+            <p class="line">CPU: 128 cores / 256 threads</p>
+            <p class="line">RAM: 3 TB</p>
+            <p class="line">Bandwidth: 15 TB included</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section" id="gpu">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">GPU COMPUTE</span>
+            <h2>Built for AI at scale.</h2>
+          </div>
+          <p>Starting prices are shown per GPU per hour for prepaid contract terms. Contact sales for custom contracts and on-demand availability.</p>
+        </div>
+
+        <div class="tabs">
+          <button class="tab active" data-filter="all">All GPU</button>
+          <button class="tab" data-filter="nvidia">NVIDIA</button>
+          <button class="tab" data-filter="amd">AMD</button>
+        </div>
+
+        <div class="grid" id="gpuGrid">
+          <article class="card featured" data-brand="nvidia">
+            <span class="chip">NVIDIA • AI TRAINING & INFERENCE</span>
+            <h3>HGX B200</h3>
+            <div class="use-case">Maximum-performance AI cluster</div>
+            <div class="price-label">Starting from</div>
+            <div class="price">$3.500 <small>/ GPU / hour</small></div>
+            <ul class="specs">
+              <li>8 × NVIDIA B200 192 GB</li><li>2 × AMD EPYC 9575F</li>
+              <li>128 cores / 256 threads</li><li>3 TB RAM</li>
+              <li>2 × 1.92 TB + 8 × 3.84 TB NVMe</li>
+              <li>8 × 400 Gbps GPU network</li><li>200 Gbps network</li><li>15 TB bandwidth</li>
+            </ul>
+            <a class="btn btn-primary" href="mailto:sales@vepesihotiser.com?subject=NVIDIA HGX B200 Inquiry">Contact Sales</a>
+          </article>
+
+          <article class="card" data-brand="amd">
+            <span class="chip">AMD • AI TRAINING & INFERENCE</span>
+            <h3>MI355X</h3>
+            <div class="use-case">Ultra-large memory AI workloads</div>
+            <div class="price-label">Starting from</div>
+            <div class="price">$2.650 <small>/ GPU / hour</small></div>
+            <ul class="specs">
+              <li>8 × AMD MI355X 288 GB</li><li>2 × AMD EPYC 9575F</li>
+              <li>128 cores / 256 threads</li><li>3 TB RAM</li>
+              <li>2 × 960 GB + 8 × 7.68 TB NVMe</li>
+              <li>8 × 400 Gbps GPU network</li><li>100 Gbps network</li><li>15 TB bandwidth</li>
+            </ul>
+            <a class="btn btn-outline" href="mailto:sales@vepesihotiser.com?subject=AMD MI355X Inquiry">Contact Sales</a>
+          </article>
+
+          <article class="card featured" data-brand="nvidia">
+            <span class="chip">NVIDIA • AI TRAINING & INFERENCE</span>
+            <h3>HGX H100</h3>
+            <div class="use-case">Enterprise AI training platform</div>
+            <div class="price-label">Starting from</div>
+            <div class="price">$2.300 <small>/ GPU / hour</small></div>
+            <ul class="specs">
+              <li>8 × NVIDIA H100 80 GB SXM</li><li>2 × Intel Platinum 8480+</li>
+              <li>112 cores / 224 threads</li><li>2 TB RAM</li>
+              <li>2 × 480 GB + 8 × 3.84 TB NVMe</li>
+              <li>8 × 400 Gbps GPU network</li><li>25 Gbps network</li><li>15 TB bandwidth</li>
+            </ul>
+            <a class="btn btn-primary" href="mailto:sales@vepesihotiser.com?subject=NVIDIA HGX H100 Inquiry">Contact Sales</a>
+          </article>
+
+          <article class="card" data-brand="amd">
+            <span class="chip">AMD • AI TRAINING & INFERENCE</span>
+            <h3>MI325X</h3>
+            <div class="use-case">High-memory AI acceleration</div>
+            <div class="price-label">Starting from</div>
+            <div class="price">$2.000 <small>/ GPU / hour</small></div>
+            <ul class="specs">
+              <li>8 × AMD MI325X 256 GB</li><li>2 × AMD EPYC 9575F</li>
+              <li>128 cores / 256 threads</li><li>3 TB RAM</li>
+              <li>2 × 960 GB + 8 × 3.84 TB NVMe</li>
+              <li>8 × 400 Gbps GPU network</li><li>100 Gbps network</li><li>15 TB bandwidth</li>
+            </ul>
+            <a class="btn btn-outline" href="mailto:sales@vepesihotiser.com?subject=AMD MI325X Inquiry">Contact Sales</a>
+          </article>
+
+          <article class="card" data-brand="nvidia">
+            <span class="chip">NVIDIA • AI INFERENCE</span>
+            <h3>GH200</h3>
+            <div class="use-case">Grace Hopper AI superchip</div>
+            <div class="price-label">Starting from</div>
+            <div class="price">$1.990 <small>/ GPU / hour</small></div>
+            <ul class="specs">
+              <li>1 × NVIDIA GH200 96 GB</li><li>NVIDIA Grace CPU</li>
+              <li>72 cores</li><li>480 GB RAM</li>
+              <li>960 GB + 3.84 TB NVMe</li><li>25 Gbps network</li><li>15 TB bandwidth</li>
+            </ul>
+            <a class="btn btn-outline" href="mailto:sales@vepesihotiser.com?subject=NVIDIA GH200 Inquiry">Contact Sales</a>
+          </article>
+
+          <article class="card" data-brand="amd">
+            <span class="chip">AMD • AI TRAINING & INFERENCE</span>
+            <h3>MI300X</h3>
+            <div class="use-case">High-throughput generative AI</div>
+            <div class="price-label">Starting from</div>
+            <div class="price">$1.750 <small>/ GPU / hour</small></div>
+            <ul class="specs">
+              <li>8 × AMD MI300X 192 GB</li><li>2 × AMD EPYC 9534</li>
+              <li>128 cores / 256 threads</li><li>2 TB RAM</li>
+              <li>2 × 960 GB + 8 × 3.84 TB NVMe</li>
+              <li>8 × 400 Gbps GPU network</li><li>100 Gbps network</li><li>15 TB bandwidth</li>
+            </ul>
+            <a class="btn btn-outline" href="mailto:sales@vepesihotiser.com?subject=AMD MI300X Inquiry">Contact Sales</a>
+          </article>
+
+          <article class="card" data-brand="nvidia">
+            <span class="chip">NVIDIA • AI TRAINING & INFERENCE</span>
+            <h3>HGX A100</h3>
+            <div class="use-case">Proven multi-GPU AI platform</div>
+            <div class="price-label">Starting from</div>
+            <div class="price">$1.490 <small>/ GPU / hour</small></div>
+            <ul class="specs">
+              <li>8 × NVIDIA A100 80 GB SXM</li><li>2 × Intel Platinum 8480+</li>
+              <li>112 cores / 224 threads</li><li>2 TB RAM</li>
+              <li>2 × 960 GB + 8 × 3.84 TB NVMe</li><li>25 Gbps network</li><li>15 TB bandwidth</li>
+            </ul>
+            <a class="btn btn-outline" href="mailto:sales@vepesihotiser.com?subject=NVIDIA HGX A100 Inquiry">Contact Sales</a>
+          </article>
+
+          <article class="card" data-brand="nvidia">
+            <span class="chip">NVIDIA • AI TRAINING & INFERENCE</span>
+            <h3>A100 PCIe</h3>
+            <div class="use-case">Flexible AI and HPC compute</div>
+            <div class="price-label">Starting from</div>
+            <div class="price">$1.290 <small>/ GPU / hour</small></div>
+            <ul class="specs">
+              <li>4 × NVIDIA A100 80 GB PCIe</li><li>2 × Intel Gold 6248R</li>
+              <li>48 cores / 96 threads</li><li>512 GB RAM</li>
+              <li>2 × 480 GB SSD + 6 × 1.6 TB NVMe</li><li>25 Gbps network</li><li>15 TB bandwidth</li>
+            </ul>
+            <a class="btn btn-outline" href="mailto:sales@vepesihotiser.com?subject=NVIDIA A100 PCIe Inquiry">Contact Sales</a>
+          </article>
+
+          <article class="card" data-brand="nvidia">
+            <span class="chip">NVIDIA • AI & VISUAL COMPUTING</span>
+            <h3>L40S</h3>
+            <div class="use-case">Rendering, inference and graphics</div>
+            <div class="price-label">Starting from</div>
+            <div class="price">$0.848 <small>/ GPU / hour</small></div>
+            <ul class="specs">
+              <li>8 × NVIDIA L40S 48 GB</li><li>2 × Intel Gold 6448H</li>
+              <li>64 cores / 128 threads</li><li>2 TB RAM</li>
+              <li>2 × 480 GB SSD + 4 × 3.84 TB NVMe</li><li>25 Gbps network</li><li>15 TB bandwidth</li>
+            </ul>
+            <a class="btn btn-outline" href="mailto:sales@vepesihotiser.com?subject=NVIDIA L40S Inquiry">Contact Sales</a>
+          </article>
+        </div>
+
+        <div class="notice">
+          <strong>Pricing note:</strong> “Starting from” pricing is presented per GPU per hour for prepaid contract terms.
+          On-demand pricing and availability may vary. Please contact sales for custom deployment, volume and contract pricing.
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="cpu">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">CPU COMPUTE</span>
+            <h2>Dedicated bare metal servers.</h2>
+          </div>
+          <p>Single-tenant servers with predictable performance, fast networking and direct access to enterprise-grade hardware.</p>
+        </div>
+
+        <div class="grid">
+          <article class="card">
+            <span class="chip">ENTRY</span><h3>Intel E3-1270</h3>
+            <div class="price">$120 <small>/ month</small></div>
+            <ul class="specs"><li>$0.179 per hour</li><li>4 cores / 8 threads @ 3.8 GHz</li><li>32 GB RAM</li><li>2 × 240 GB SSD</li><li>5 TB bandwidth</li><li>10 Gbps network</li></ul>
+            <a class="btn btn-outline" href="mailto:sales@vepesihotiser.com?subject=Intel E3-1270 Inquiry">Deploy Server</a>
+          </article>
+
+          <article class="card">
+            <span class="chip">ENTRY PLUS</span><h3>Intel E-2286G</h3>
+            <div class="price">$185 <small>/ month</small></div>
+            <ul class="specs"><li>$0.275 per hour</li><li>6 cores / 12 threads @ 4.0 GHz</li><li>32 GB RAM</li><li>2 × 960 GB SSD</li><li>5 TB bandwidth</li><li>10 Gbps network</li></ul>
+            <a class="btn btn-outline" href="mailto:sales@vepesihotiser.com?subject=Intel E-2286G Inquiry">Deploy Server</a>
+          </article>
+
+          <article class="card">
+            <span class="chip">HIGH CLOCK</span><h3>AMD EPYC 4245P</h3>
+            <div class="price">$295 <small>/ month</small></div>
+            <ul class="specs"><li>$0.439 per hour</li><li>6 cores / 12 threads @ 3.9 GHz</li><li>32 GB RAM</li><li>2 × 960 GB NVMe</li><li>5 TB bandwidth</li><li>25 Gbps network</li></ul>
+            <a class="btn btn-outline" href="mailto:sales@vepesihotiser.com?subject=AMD EPYC 4245P Inquiry">Deploy Server</a>
+          </article>
+
+          <article class="card">
+            <span class="chip">PERFORMANCE</span><h3>Intel E-2288G</h3>
+            <div class="price">$350 <small>/ month</small></div>
+            <ul class="specs"><li>$0.521 per hour</li><li>8 cores / 16 threads @ 3.7 GHz</li><li>128 GB RAM</li><li>2 × 1.92 TB NVMe</li><li>10 TB bandwidth</li><li>10 Gbps network</li></ul>
+            <a class="btn btn-outline" href="mailto:sales@vepesihotiser.com?subject=Intel E-2288G Inquiry">Deploy Server</a>
+          </article>
+
+          <article class="card">
+            <span class="chip">PERFORMANCE</span><h3>Intel E-2388G</h3>
+            <div class="price">$350 <small>/ month</small></div>
+            <ul class="specs"><li>$0.521 per hour</li><li>8 cores / 16 threads @ 3.2 GHz</li><li>128 GB RAM</li><li>2 × 1.92 TB NVMe</li><li>10 TB bandwidth</li><li>10 Gbps network</li></ul>
+            <a class="btn btn-outline" href="mailto:sales@vepesihotiser.com?subject=Intel E-2388G Inquiry">Deploy Server</a>
+          </article>
+
+          <article class="card">
+            <span class="chip">HIGH CLOCK</span><h3>AMD EPYC 4345P</h3>
+            <div class="price">$365 <small>/ month</small></div>
+            <ul class="specs"><li>$0.543 per hour</li><li>8 cores / 16 threads @ 3.8 GHz</li><li>64 GB RAM</li><li>2 × 1.9 TB NVMe</li><li>10 TB bandwidth</li><li>25 Gbps network</li></ul>
+            <a class="btn btn-outline" href="mailto:sales@vepesihotiser.com?subject=AMD EPYC 4345P 64GB Inquiry">Deploy Server</a>
+          </article>
+
+          <article class="card featured">
+            <span class="chip">BEST VALUE</span><h3>AMD EPYC 4345P</h3>
+            <div class="price">$395 <small>/ month</small></div>
+            <ul class="specs"><li>$0.588 per hour</li><li>8 cores / 16 threads @ 3.8 GHz</li><li>128 GB RAM</li><li>2 × 1.9 TB NVMe</li><li>10 TB bandwidth</li><li>25 Gbps network</li></ul>
+            <a class="btn btn-primary" href="mailto:sales@vepesihotiser.com?subject=AMD EPYC 4345P 128GB Inquiry">Deploy Server</a>
+          </article>
+
+          <article class="card">
+            <span class="chip">BUSINESS</span><h3>AMD EPYC 7443P</h3>
+            <div class="price">$725 <small>/ month</small></div>
+            <ul class="specs"><li>$1.079 per hour</li><li>24 cores / 48 threads @ 2.85 GHz</li><li>256 GB RAM</li><li>2 × 480 GB SSD + 2 × 1.92 TB NVMe</li><li>10 TB bandwidth</li><li>25 Gbps network</li></ul>
+            <a class="btn btn-outline" href="mailto:sales@vepesihotiser.com?subject=AMD EPYC 7443P Inquiry">Deploy Server</a>
+          </article>
+
+          <article class="card">
+            <span class="chip">BUSINESS PLUS</span><h3>AMD EPYC 9254</h3>
+            <div class="price">$825 <small>/ month</small></div>
+            <ul class="specs"><li>$1.228 per hour</li><li>24 cores / 48 threads @ 2.9 GHz</li><li>384 GB RAM</li><li>2 × 480 GB SSD + 2 × 1.92 TB NVMe</li><li>10 TB bandwidth</li><li>25 Gbps network</li></ul>
+            <a class="btn btn-outline" href="mailto:sales@vepesihotiser.com?subject=AMD EPYC 9254 Inquiry">Deploy Server</a>
+          </article>
+
+          <article class="card featured">
+            <span class="chip">100 GBPS NETWORK</span><h3>AMD EPYC 9255</h3>
+            <div class="price">$995 <small>/ month</small></div>
+            <ul class="specs"><li>$1.481 per hour</li><li>24 cores / 48 threads @ 3.2 GHz</li><li>384 GB RAM</li><li>2 × 480 GB SSD + 2 × 1.92 TB NVMe</li><li>10 TB bandwidth</li><li>100 Gbps network</li></ul>
+            <a class="btn btn-primary" href="mailto:sales@vepesihotiser.com?subject=AMD EPYC 9255 Inquiry">Deploy Server</a>
+          </article>
+
+          <article class="card">
+            <span class="chip">HIGH MEMORY</span><h3>AMD EPYC 9354P</h3>
+            <div class="price">$1,450 <small>/ month</small></div>
+            <ul class="specs"><li>$2.158 per hour</li><li>32 cores / 64 threads @ 3.25 GHz</li><li>768 GB RAM</li><li>2 × 480 GB SSD + 4 × 6.4 TB NVMe</li><li>10 TB bandwidth</li><li>25 Gbps network</li></ul>
+            <a class="btn btn-outline" href="mailto:sales@vepesihotiser.com?subject=AMD EPYC 9354P Inquiry">Contact Sales</a>
+          </article>
+
+          <article class="card">
+            <span class="chip">STORAGE COMPUTE</span><h3>2 × AMD EPYC 9354</h3>
+            <div class="price">$2,925 <small>/ month</small></div>
+            <ul class="specs"><li>$4.353 per hour</li><li>64 cores / 128 threads @ 3.2 GHz</li><li>1.5 TB RAM</li><li>1 × 480 GB + 16 × 6.4 TB NVMe</li><li>10 TB bandwidth</li><li>25 Gbps network</li></ul>
+            <a class="btn btn-outline" href="mailto:sales@vepesihotiser.com?subject=Dual AMD EPYC 9354 Inquiry">Contact Sales</a>
+          </article>
+
+          <article class="card">
+            <span class="chip">EXTREME COMPUTE</span><h3>2 × AMD EPYC 7713</h3>
+            <div class="price">$5,500 <small>/ month</small></div>
+            <ul class="specs"><li>$8.185 per hour</li><li>128 cores / 256 threads @ 2.0 GHz</li><li>2 TB RAM</li><li>2 × 480 GB SSD + 10 × 6.4 TB NVMe</li><li>25 TB bandwidth</li><li>25 Gbps network</li></ul>
+            <a class="btn btn-outline" href="mailto:sales@vepesihotiser.com?subject=Dual AMD EPYC 7713 Inquiry">Contact Sales</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="container">
+        <div class="section-head">
+          <div><span class="eyebrow">WHY VEPESI HOTISER</span><h2>Infrastructure without compromise.</h2></div>
+        </div>
+        <div class="why-grid">
+          <div class="feature"><div class="feature-icon">⚡</div><h3>High-speed network</h3><p>Up to 200 Gbps public network and 400 Gbps GPU fabric for demanding distributed workloads.</p></div>
+          <div class="feature"><div class="feature-icon">◆</div><h3>Enterprise hardware</h3><p>Latest-generation NVIDIA, AMD, Intel and EPYC platforms with dedicated resources.</p></div>
+          <div class="feature"><div class="feature-icon">▣</div><h3>NVMe storage</h3><p>High-capacity local NVMe arrays for datasets, checkpoints, databases and high-throughput applications.</p></div>
+          <div class="feature"><div class="feature-icon">◉</div><h3>Expert support</h3><p>Sales and infrastructure specialists available for architecture, deployment and contract planning.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="cta">
+          <div>
+            <h2>Ready to deploy?</h2>
+            <p>Tell us about your workload, required GPU count, storage, bandwidth and deployment timeline.</p>
+          </div>
+          <a class="btn btn-primary" href="mailto:sales@vepesihotiser.com?subject=Infrastructure Pricing Request">Request Pricing</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>© 2026 Vepesi Hotiser. All rights reserved.</div>
+      <div>GPU Compute • Bare Metal • AI Infrastructure</div>
+    </div>
+  </footer>
+
+  <script>
+    const tabs = document.querySelectorAll('.tab');
+    const cards = document.querySelectorAll('#gpuGrid .card');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const filter = tab.dataset.filter;
+
+        cards.forEach(card => {
+          card.style.display = filter === 'all' || card.dataset.brand === filter ? 'block' : 'none';
+        });
+      });
+    });
+  </script>
+</body>
+</html>
